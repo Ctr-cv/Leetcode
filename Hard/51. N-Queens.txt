@@ -1,0 +1,38 @@
+class Solution {
+public:
+    bool check(vector<int>& rows, int i, int j) {
+        for (int k = 0; k < i; k++) {
+            if (rows[k] == j || (abs(rows[k] - j) == abs(i - k))) return false;
+        }
+        return true;
+    }
+
+    void f2(vector<vector<string>>& result, vector<string>& path, int i, int n, vector<int>& rows) {
+        if (i == n) {
+            result.push_back(path);
+            return;
+        }
+        for (int j = 0; j < n; j++) {
+            if (check(rows, i, j)) {
+                string row = "";
+                for (int k = 0; k < n; k++) {
+                    if (k == j) row += 'Q';
+                    else row += '.';
+                }
+                path.push_back(row);
+                rows[i] = j;
+                f2(result, path, i + 1, n, rows);
+                path.pop_back();
+            }
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> result;
+        if (n < 1) return result;
+        vector<string> path;
+        vector<int> rows(n);
+        f2(result, path, 0, n, rows);
+        return result;
+    }
+};

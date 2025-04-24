@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int f2(int limit, int col, int left, int right) {
+        if (col == limit) return 1;
+        int ban = (col | left | right);
+        int candidates = limit & (~ban);
+        int ans = 0, place = 0;
+        while (candidates != 0) {
+            place = candidates & (-candidates);    // Takes right-most 1
+            candidates ^= place;                   // Gets rid of right-most 1
+            ans += f2(limit, col | place, (left | place) >> 1, (right | place) << 1);
+        }
+        return ans;
+    }
+
+    int totalNQueens(int n) {
+        if (n < 1) return 0;
+        int limit = (1 << n) - 1;
+        return f2(limit, 0, 0, 0);
+    }
+};
