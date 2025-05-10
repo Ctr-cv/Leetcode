@@ -1,0 +1,28 @@
+class Solution {
+public:
+    long long minSum(vector<int>& nums1, vector<int>& nums2) {
+        long long sums1 = 0, sums2 = 0;
+        int z1 = 0, z2 = 0;
+        for (int i = 0; i < nums1.size(); i++){
+            if (nums1[i] == 0) z1++;
+            sums1 += nums1[i];
+        }
+        for (int i = 0; i < nums2.size(); i++){
+            if (nums2[i] == 0) z2++;
+            sums2 += nums2[i];
+        }
+        if (sums1 > sums2 && !z2) return -1;
+        if (sums2 > sums1 && !z1) return -1;
+        if (z2 == 0){
+            if (sums1 + z1 > sums2) return -1;
+            return sums2;
+        }
+        if (z1 == 0){
+            if (sums2 + z2 > sums1) return -1;
+            return sums1;
+        }
+        sums1 += z1;
+        sums2 += z2;
+        return max(sums1, sums2);
+    }
+};
